@@ -188,6 +188,8 @@ namespace LanguageFeatures.Controllers
             var foundProducts = products.OrderByDescending(e => e.Price).Take(3)
                 .Select(e => new { e.Name, e.Price });
 
+            products[2] = new Product { Name = "Stadium", Price = 79600M };
+
             //Create the result
             int count = 0;
             StringBuilder result = new StringBuilder();
@@ -205,6 +207,25 @@ namespace LanguageFeatures.Controllers
             }
 
             return View("Result", (object)result.ToString());
+        }
+
+        public ViewResult SumProducts()
+        {
+            Product[] products = {
+                new Product {Name = "Kayak", Category = "Watersports", Price = 275M},
+                new Product {Name = "Lifejacket", Category = "Watersports", Price = 48.95M},
+                new Product {Name = "Soccer ball", Category = "Soccer", Price = 19.50M},
+                new Product {Name = "Corner flag", Category = "Soccer", Price = 34.95M}
+            };
+
+            var foundProducts = products.OrderByDescending(e => e.Price).Take(3)
+                .Select(e => new { e.Name, e.Price });
+
+            var results = products.Sum(e => e.Price);
+
+            products[2] = new Product { Name = "Stadium", Price = 79600M };
+
+            return View("Result", (object)String.Format("Sum: {0:c}", results));
         }
     }
 }
